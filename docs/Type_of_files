@@ -1,0 +1,41 @@
+Categorizing:
+ powerpoint : (python-pptx)
+ excel comme XLSX : (pandas)
+ pdf : (pdftotext/pdf2txt)
+ odt : (odfpy)
+ docx : (docx2txt)
+ epub : (epub)
+ csv : (panda)
+ 
+
+
+Special operation : 
+jpg/jpeg/png, tiff : scipy function misc (se baser eventuellement sur la résolution de l'image ?)
+xml : ( xml.dom ) ( se baser sur les noms de balise tel : library, livre..ect)
+ json : (json)
+zip : (zipfile)
+html : (BeautifulSoup)
+rar :
+
+
+Isolated Tree : 
+Code : .c .cpp .py .java .class .jar .html .css 
+
+Use a Sorter ML to recognize:
+config files  
+
+
+
+Do not treat
+mp3, mp4, avi , mkv  :  ( moviepy.editor import VideoFileClip)
+ pbm : portable bitmap
+ bmp : windows bitmap
+ cur : cursor file
+ hdf4 : hiearc  hical data format  ( pandas.read_hdf)
+ ico : icon file
+ pcx : windows paintbrush
+ pgm : portable graymap
+ ppm : portable pitmap
+ XWD : X Window Dump
+ ova : machine virtuelle
+ CBR & CBZ : comics 
