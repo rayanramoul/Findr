@@ -23,7 +23,7 @@ class Asking():
         else:
             lang = 'English'
 
-        translator.load('translate/'+lang.lower()+'ask.qm')
+        translator.load(os.path.join('translate',lang.lower()+'ask.qm'))
 
         self.app.installTranslator(translator)
 
@@ -32,10 +32,10 @@ class Asking():
         self.main_window.setCentralWidget(self.widget)
         pic = QtGui.QLabel()
         pic.resize(500, 300)
-        pic.setPixmap(QtGui.QPixmap("resources/full.png"))
+        pic.setPixmap(QtGui.QPixmap(os.path.join('resources','full.png')))
 
         self.choice=QtGui.QLabel()
-        self.configuration.path = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))) + '/'
+        self.configuration.path = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
         self.choice.setText(self.app.tr('Language'))
 
         self.lang=QtGui.QComboBox()
@@ -78,7 +78,10 @@ class Asking():
         self.main_window.setFixedSize(300,600)
 
     def addfile(self):
-        tom=str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.app.tr('Choose a Folder'), expanduser("~"),QtGui.QFileDialog.ShowDirsOnly))
+        try:
+            tom=str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.app.tr('Choose a Folder'), expanduser("~"),QtGui.QFileDialog.ShowDirsOnly))
+        except:
+            tom = str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.app.tr('Choose a Folder'), expanduser('C:\ '),QtGui.QFileDialog.ShowDirsOnly))
         if tom!='' and tom!=' ':
             self.directories.addItem(tom)
 

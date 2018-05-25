@@ -23,14 +23,14 @@ class HiddenTree(VisibleTree):
         self.nodes = {}
         self.favoris=[]
 
-        if not os.path.isdir('profile/'):
-            os.mkdir('profile/')
+        if not os.path.isdir('profile'):
+            os.mkdir('profile')
         self.recents=[]
         self.highlighted=[]
-        load=open('resources/hiearch','r')
+        load=open(os.path.join('resources','hiearch'),'r')
         r=load.read().splitlines()
 
-        dom = open('resources/equivalents', 'r').read().splitlines()
+        dom = open(os.path.join('resources','equivalents'), 'r').read().splitlines()
         d=[]
         self.equivalents={}
         self.equivalents['français']={}
@@ -43,7 +43,7 @@ class HiddenTree(VisibleTree):
             self.equivalents['english'][s[0]]=s[0]
 
 
-        om = open('resources/equivalents', 'r').read().splitlines()
+        om = open(os.path.join('resources','equivalents'), 'r').read().splitlines()
         for bi in dom:
             bi.split(':')
         for i in r:
@@ -80,7 +80,7 @@ class HiddenTree(VisibleTree):
         self.projets={}
         for i in progs:
             self.projets[i]=[]
-        if os.path.isfile('profile/documents'):
+        if os.path.isfile(os.path.join('profile','documents')):
             self.load()
 
     def initialize(self,directory):
@@ -203,11 +203,11 @@ class HiddenTree(VisibleTree):
 
 
     def tfidfer(self,entries, language, tidf=True):  # To Apply on new Documents
-        with open('ML/Categorization/modals/' + str(language) + '/nasus', 'rb') as f1:
+        with open(os.path.join('ML','Categorization','modals',str(language),'nasus'),'rb') as f1:
             modal = pickle.load(f1)
-        with open('ML/Categorization/modals/' + str(language) + '/vect', 'rb') as f2:
+        with open(os.path.join('ML','Categorization','modals',str(language),'vect'), 'rb') as f2:
             vect = pickle.load(f2)
-        with open('ML/Categorization/modals/' + str(language) + '/tfidf', 'rb') as f3:
+        with open(os.path.join('ML','Categorization','modals',str(language),'tfidf'), 'rb') as f3:
             ti = pickle.load(f3)
         all=[]
         for entry in entries:
@@ -270,10 +270,10 @@ class HiddenTree(VisibleTree):
             r = s.createdocument(path, name)
             language = r.language
         if not d and r.category not in ['Img','Vid','Aud','.py']:
-            something=pickle.load(open('resources/tree/'+str(r.language)+'/'+str(r.category),'rb'))
-            with open('ML/Categorization/modals/' + str(r.language) + '/vect', 'rb') as f2:
+            something=pickle.load(open(os.path.join('resources','tree',str(r.language),str(r.category)),'rb'))
+            with open(os.path.join('ML','Categorization','modals', str(r.language) , 'vect'), 'rb') as f2:
                 vect = pickle.load(f2)
-            with open('ML/Categorization/modals/' + str(r.language) + '/tfidf', 'rb') as f3:
+            with open(os.path.join('ML','Categorization','modals',str(r.language), 'tfidf'), 'rb') as f3:
                 ti = pickle.load(f3)
             self.nodes[self.equivalents[self.language][r.category]].visible = True
             cous=self.hillclimbing(vect,ti,something, r.text ,r.category,[])
@@ -326,10 +326,10 @@ class HiddenTree(VisibleTree):
         return r
 
     def save(self):
-        pickle.dump(self.documents,open('profile/documents', 'wb'))
-        pickle.dump(self.favoris,open('profile/favoris','wb'))
-        pickle.dump(self.recents,open('profile/recents','wb'))
-        pickle.dump(self.projets,open('profile/projets','wb'))
+        pickle.dump(self.documents,open(os.path.join('profile','documents'), 'wb'))
+        pickle.dump(self.favoris,open(os.path.join('profile','favoris'),'wb'))
+        pickle.dump(self.recents,open(os.path.join('profile','recents'),'wb'))
+        pickle.dump(self.projets,open(os.path.join('profile','projets'),'wb'))
 
 
     def gettags(self):
@@ -346,10 +346,10 @@ class HiddenTree(VisibleTree):
 
 
     def load(self):
-        documents=pickle.load(open('profile/documents','rb'))
-        self.favoris = pickle.load(open('profile/favoris', 'rb'))
-        self.recents = pickle.load(open('profile/recents', 'rb'))
-        self.projets = pickle.load(open('profile/projets', 'rb'))
+        documents=pickle.load(open(os.path.join('profile','documents'),'rb'))
+        self.favoris = pickle.load(open(os.path.join('profile','favoris'), 'rb'))
+        self.recents = pickle.load(open(os.path.join('profile','recents'), 'rb'))
+        self.projets = pickle.load(open(os.path.join('profile','projets'), 'rb'))
         for i in documents:
             soum=self.equivalents[self.language][i.category]
             for x in self.hiearchy:

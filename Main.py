@@ -9,9 +9,9 @@ import subprocess
 if __name__ == '__main__':
     user=getpass.getuser()
 
-    if not (os.path.isfile('profile/configuration')):
+    if not (os.path.isfile(os.path.join('profile','configuration'))):
         app = QtGui.QApplication(['Findr'])
-        app.setWindowIcon(QtGui.QIcon('resources/'+'Findr.png'))
+        app.setWindowIcon(QtGui.QIcon(os.path.join('resources','Findr.png')))
 
         s=Asking(app)
         s.main_window.show()
@@ -21,5 +21,5 @@ if __name__ == '__main__':
 #            os.system('python -m pip install ' + str(i))
         app.exec_()
 
-    if (os.path.isfile('profile/configuration')):
+    if (os.path.isfile(os.path.join('profile','configuration'))):
         w=MainWindow()

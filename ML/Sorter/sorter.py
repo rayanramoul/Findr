@@ -17,9 +17,9 @@ import libarchive.public
 
 class sorter:
     def __init__(self):
-            self.modal=pickle.load(open('ML/Sorter/modals/configus', 'rb'))
-            self.vect=pickle.load(open('ML/Sorter/modals/vect', 'rb'))
-            self.ti=pickle.load(open('ML/Sorter/modals/tfidf', 'rb'))
+            self.modal=pickle.load(open(os.path.join('ML','Sorter','modals','configus'), 'rb'))
+            self.vect=pickle.load(open(os.path.join('ML','Sorter','modals','vect'), 'rb'))
+            self.ti=pickle.load(open(os.path.join('ML','Sorter','modals','tfidf'), 'rb'))
 
 
     def tfidf(self, entry1, entry2=None, entry3=None, tidf=True): # For initial Fit
@@ -53,9 +53,9 @@ class sorter:
         return X_train_tfidf.toarray()[1]
 
     def save(self):     # Saving all the Modals
-        pickle.dump(self.modal,open('modals/configus','wb'))
-        pickle.dump(self.vect,open('modals/vect','wb'))
-        pickle.dump(self.ti,open('modals/tfidf','wb'))
+        pickle.dump(self.modal,open(os.path.join('modals','configus'),'wb'))
+        pickle.dump(self.vect,open(os.path.join('modals','vect'),'wb'))
+        pickle.dump(self.ti,open(os.path.join('modals','tfidf'),'wb'))
 
 
     def extract(self, text):
@@ -96,7 +96,7 @@ class sorter:
         return mat
 
     def loadmodal(self):
-        return pickle.load(open('modals/configus', 'rb'))
+        return pickle.load(open(os.path.join('modals','configus'), 'rb'))
 
     def predict(self,document):
         m=self.modal

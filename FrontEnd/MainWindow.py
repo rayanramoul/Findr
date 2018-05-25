@@ -26,14 +26,14 @@ class MainWindow(QtGui.QMainWindow):
         self.loadedrec=False
 #======================== Initialize resources ==================
 
-        self.resources='resources/'
-        self.background=self.resources+'background.jpg'
-        self.logo=self.resources+'zozio.png'
+        self.resources='resources'
+        self.background=os.path.join(self.resources,'background.jpg')
+        self.logo=os.path.join(self.resources,'zozio.png')
         self.main=0
         self.actualcat='Findr'
 # ===================== Create the app ======================
         self.app = QtGui.QApplication(['Findr'])
-        self.app.setWindowIcon(QtGui.QIcon(self.resources+'Findr.png'))
+        self.app.setWindowIcon(QtGui.QIcon(os.path.join(self.resources,'Findr.png')))
         super(MainWindow, self).__init__(parent)
 
         self.widget = QtGui.QWidget()
@@ -45,7 +45,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setFixedSize(1200, 600)
         self.widget.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.widget.setStyleSheet("background-color: #24263d;")
-        self.configuration.path = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))+'/'
+        self.configuration.path = str(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
 #==================== TRANSLATOR ==================================
         locale = getdefaultlocale()
@@ -55,12 +55,12 @@ class MainWindow(QtGui.QMainWindow):
             self.app.setLayoutDirection(Qt.RightToLeft)
         else:
             language = self.configuration.language.lower()
-        translator.load('translate/' + language + '.qm')
+        translator.load(os.path.join('translate' , language + '.qm'))
         self.app.installTranslator(translator)
 
 #============================ Logo ==============================
         picture=QtGui.QLabel(self.widget)
-        logo=QtGui.QPixmap("resources/zozio.png")
+        logo=QtGui.QPixmap(os.path.join("resources","zozio.png"))
         logo = logo.scaledToWidth(50)
         logo = logo.scaledToHeight(80)
         picture.setPixmap(logo)
@@ -171,23 +171,23 @@ class MainWindow(QtGui.QMainWindow):
         background-color:#191a2c;font-size:20px;}
        QTreeWidget::branch:closed:has-children:has-siblings {
 border-image: none;
-image: url('''+self.configuration.path+'''resources/icons/unexpanded.png);
+image: url('''+str(os.path.join('resources','icons','unexpanded.png'))+''');
 }
 QTreeWidget::branch:open:has-children:!has-siblings,
 QTreeWidget::branch:open:has-children:has-siblings {
 border-image: none;
-image: url('''+self.configuration.path+'''resources/icons/expanded.png);
+image: url('''+str(os.path.join('resources','icons','expanded.png'))+''');
 }'''
         cssarabic=''' QTreeWidget{justifiy:right;align:right;
         background-color:#191a2c;font-size:20px;}
        QTreeWidget::branch:closed:has-children:has-siblings {
 border-image: none;
-image: url('''+self.configuration.path+'''resources/icons/unexpanded.png);
+image: url('''+str(os.path.join('resources','icons','unexpanded.png'))+''');
 }
 QTreeWidget::branch:open:has-children:!has-siblings,
 QTreeWidget::branch:open:has-children:has-siblings {
 border-image: none;
-image: url('''+self.configuration.path+'''resources/icons/expanded.png);
+image: url('''+str(os.path.join('resources','icons','expanded.png'))+''');
 }'''
         self.tree = QTreeWidget()
         self.tree.setHeaderHidden(True)
@@ -234,7 +234,7 @@ image: url('''+self.configuration.path+'''resources/icons/expanded.png);
         for item in self.cats:
             if self.ht.nodes[item].visible:
                 self.child[item] = QTreeWidgetItem(self.categories)
-                self.child[item].setIcon(0, QtGui.QIcon(self.configuration.path + 'resources/icons/folder-blue.png'))
+                self.child[item].setIcon(0, QtGui.QIcon(os.path.join('resources','icons','folder-blue.png')))
                 self.child[item].setFlags(self.child[item].flags() )
                 self.child[item].setText(0, item)
                 self.child[item].setForeground(0, QtGui.QBrush(QtGui.QColor("#a0833f")))
@@ -242,7 +242,7 @@ image: url('''+self.configuration.path+'''resources/icons/expanded.png);
             else:
                 self.child[item] = QTreeWidgetItem()
                 self.child[item].setFlags(self.child[item].flags() )
-                self.child[item].setIcon(0, QtGui.QIcon(self.configuration.path + 'resources/icons/folder-blue.png'))
+                self.child[item].setIcon(0, QtGui.QIcon(os.path.join('resources','icons','folder-blue.png')))
                 self.child[item].setText(0, item)
                 self.child[item].setForeground(0, QtGui.QBrush(QtGui.QColor("#a0833f")))
 
@@ -257,10 +257,11 @@ image: url('''+self.configuration.path+'''resources/icons/expanded.png);
 
         self.cou = {}
         self.trou={}
-        self.csscatcontent='''QTreeWidget{background-color:#1c1d31;font-size:16px;} QTreeWidget::indicator:unchecked {image: url('''+self.configuration.path+'''resources/icons/unchecked.png);}
-QTreeWidget::indicator:checked {image: url('''+self.configuration.path+'''resources/icons/checked.png);}
-QTreeWidget::branch:closed:has-children:has-siblings{border-image: none;image: url('''+self.configuration.path+'''resources/icons/unexpanded.png);}
-QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has-children:has-siblings {border-image: none;image: url('''+self.configuration.path+'''resources/icons/unexpanded.png);}'''
+        self.csscatcontent='''QTreeWidget{background-color:#1c1d31;font-size:16px;} QTreeWidget::indicator:unchecked {image: url('''+str(os.path.join('resources','icons','unchecked.png'))+''');}
+QTreeWidget::indicator:checked {image: url('''+str(os.path.join('resources','icons','checked.png'))+''');}
+QTreeWidget::branch:closed:has-children:has-siblings{border-image: none;image: url('''+str(os.path.join('resources','icons','unexpanded.png'))+''');}
+QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has-children:has-siblings {border-image: none;image: url(
+'''+str(os.path.join('resources','icons','unexpanded.png'))+''');}'''
 
         for i in self.permanent:
             actualcat=i
@@ -368,14 +369,14 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
         self.addToolBar(Qt.LeftToolBarArea, self.menu)
         self.homebar=self.menu.addAction(' ')
         s=QIcon()
-        pix=QPixmap(self.configuration.path+'resources/icons/homehover.png')
+        pix=QPixmap(os.path.join('resources','icons','homehover.png'))
         self.homebar.setIcon(QtGui.QIcon(pix.scaled(50,50)))
         self.homebar.triggered.connect(lambda:self.menuclick('Home'))
 
         self.configbar=self.menu.addAction(' ')
-        self.configbar.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/config.png'))
-        self.configbar.triggered.connect(lambda:self.menuclick('Configuration'))
 
+        self.configbar.setIcon(QtGui.QIcon(os.path.join('resources', 'icons', 'config.png')))
+        self.configbar.triggered.connect(lambda:self.menuclick('Configuration'))
         self.widget.setWindowTitle('Findr')
 
 
@@ -527,8 +528,6 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
         QtCore.QObject.connect(self.watcher, QtCore.SIGNAL('directoryChanged()'), self.directory_changed)
         QtCore.QObject.connect(self.watcher, QtCore.SIGNAL('fileChanged()'), self.file_changed)
 
-        for i in self.watcher.directories():
-            print(str(i))
         self.watcher.directoryChanged.connect(self.directory_changed)
         self.watcher.fileChanged.connect(self.file_changed)
 #        self.visit()
@@ -540,13 +539,13 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
         sys.exit(self.app.exec_())
 
     def onToggled1(self, checked):
-        self.toolButton1.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/homehover.png'))
+        self.toolButton1.setIcon(QtGui.QIcon(os.path.join('resources','icons','homehover.png')))
         self.toolButton2.setChecked(False)
-        self.toolButton2.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/config.png'))
+        self.toolButton2.setIcon(QtGui.QIcon(os.path.join('resources','icons','config.png')))
     def onToggled2(self, checked):
-        self.toolButton2.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/confighover.png'))
+        self.toolButton2.setIcon(QtGui.QIcon(os.path.join('resources','icons','confighover.png')))
         self.toolButton1.setChecked(False)
-        self.toolButton1.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/home.png'))
+        self.toolButton1.setIcon(QtGui.QIcon(os.path.join('resources','icons','home.png')))
 
 
 
@@ -575,18 +574,22 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
     def menuclick(self, item):
         if item=='Home':
             self.stacked.setCurrentWidget(self.widget)
-            self.homebar.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/homehover.png'))
-            self.configbar.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/config.png'))
+            self.homebar.setIcon(QtGui.QIcon(os.path.join('resources','icons','homehover.png')))
+            self.configbar.setIcon(QtGui.QIcon(os.path.join('resources','icons','config.png')))
 
 
         if item=='Configuration':
             self.stacked.setCurrentWidget(self.config)
-            self.homebar.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/home.png'))
-            self.configbar.setIcon(QtGui.QIcon(self.configuration.path+'resources/icons/confighover.png'))
+            self.homebar.setIcon(QtGui.QIcon(os.path.join('resources','icons','home.png')))
+            self.configbar.setIcon(QtGui.QIcon(os.path.join('resources','icons','confighover.png')))
         self.menu.update()
 
     def addfile(self):
-        tom=str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.tr('Choose a Folder'), expanduser("~"),QtGui.QFileDialog.ShowDirsOnly))
+        try:
+            tom=str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.tr('Choose a Folder'), expanduser("~"),QtGui.QFileDialog.ShowDirsOnly))
+        except:
+            tom = str(QtGui.QFileDialog.getExistingDirectory(self.widget, self.app.tr('Choose a Folder'), expanduser('C:\ '),QtGui.QFileDialog.ShowDirsOnly))
+
         if tom!='' and tom!=' ':
             self.directories.addItem(tom)
     def suppressdirectory(self):
@@ -877,7 +880,7 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
                 if l is False:
                     if self.ht.nodes[i].visible is True and i not in self.cats and i not in suppressed and limit<4:
                         child = QTreeWidgetItem()
-                        child.setIcon(0, QtGui.QIcon(self.configuration.path + 'resources/icons/folder-orange.png'))
+                        child.setIcon(0, QtGui.QIcon(os.path.join('resources','icons','folder-orange.png')))
                         child.setFlags(child.flags())
                         child.setText(0, i)
                         child.setForeground(0, QtGui.QBrush(QtGui.QColor("#333750")))
