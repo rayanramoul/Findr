@@ -10,16 +10,14 @@ class Config:
         self.developper=dev
         self.search=[]
 
-        if not os.path.isdir('/home/'+self.user+'/Documents'):
+        if not os.path.isdir('profile/'):
             os.mkdir('/home/'+self.user+'/Documents')
-        if not os.path.isdir('/home/'+self.user+'/Documents/Findr'):
-            os.mkdir('/home/' + self.user + '/Documents/Findr')
         self.path=''
         self.work=[]
         self.load()
     def load(self):
-        if os.path.isfile('/home/'+self.user+'/Documents/Findr/configuration'):
-            lis=open('/home/'+self.user+'/Documents/Findr/configuration','r').read().splitlines()
+        if os.path.isfile('profile/configuration'):
+            lis=open('profile/configuration','r').read().splitlines()
             language=lis[0].split(':')
             dev=lis[1].split(':')
             path=lis[2].split(':')
@@ -28,13 +26,13 @@ class Config:
             self.path=path[1]
             self.language=language[1]
             self.work=work[1].split(',')
-            self.search=pickle.load(open('/home/'+self.user+'/Documents/Findr/bm','rb'))
+            self.search=pickle.load(open('profile/bm','rb'))
             
     def save(self):
-        r=open('/home/'+self.user+'/Documents/Findr/configuration','w')
+        r=open('profile/configuration','w')
         r.write('language:'+str(self.language)+'\n')
         r.write('dev:'+str(self.developper)+'\n')
         r.write('path:'+str(self.path)+'\n')
         r.write('work:'+str(','.join(self.work)))
-        pickle.dump(self.search, open('/home/'+self.user+'/Documents/Findr/bm','wb'))
+        pickle.dump(self.search, open('profile/bm','wb'))
         r.close()
