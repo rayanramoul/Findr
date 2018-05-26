@@ -120,9 +120,10 @@ class HiddenTree(VisibleTree):
         hx=self.gettags()
         lis['Tags']=[]
         for i in hx:
-            if i in origin:
+            for j in origin:
                 for d in hx[i]:
-                    lis['Tags'].append(d)
+                    if j.lower() in i.lower():
+                        lis['Tags'].append(d)
 
         lis['Documents']=[]
         intermediaire={}
@@ -336,11 +337,11 @@ class HiddenTree(VisibleTree):
         tags={}
         for i in self.documents:
             for j in i.tags:
-                tags[j]=[]
-
-        for i in self.documents:
-            for j in i.tags:
-                tags[j].append(i)
+                try:
+                    tags[j].append(i)
+                except:
+                    tags[j]=[]
+                    tags[j].append(i)
 
         return tags
 
