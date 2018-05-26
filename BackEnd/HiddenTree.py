@@ -88,6 +88,7 @@ class HiddenTree(VisibleTree):
 
         for path, subdirs, files in os.walk(directory):
             d=False
+
             for name in files:
                 file = os.path.join(path, name)
                 if '/.' not in file:
@@ -105,6 +106,7 @@ class HiddenTree(VisibleTree):
                                 self.projets[x].append(di)
 
                     if not d:
+
                         if self.contains(file)==False:
                             self.add(file,name)
 

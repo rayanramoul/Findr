@@ -1147,30 +1147,32 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
     def file_changed(self, path):
         print('File changed ')
         self.notification.setText(self.tr('Updating'))
-        s=worker(self.app,self.ht,path)
+        s=worker(self.app,self.ht,path,self.configuration)
         self.widget.connect(s, s.signal, self.refresh)
         s.start()
 
     def directory_changed(self, path):
         print('Directory Changed ! ')
         self.notification.setText(self.tr('Updating'))
-        s=worker(self.app,self.ht,path)
+        s=worker(self.app,self.ht,path,self.configuration)
         self.widget.connect(s, s.signal, self.refresh)
         s.start()
 
 
 class worker(QtCore.QThread):
-    def __init__(self,app,ht,path):
+    def __init__(self,app,ht,path,config):
         QtCore.QThread.__init__(self, parent=app)
         self.signal = QtCore.SIGNAL("signal")
         self.app=app
         self.ht=ht
         self.path=str(path)
+        self.config=config
     def run(self):
-        print('New signal received ! ')
+        print('New signal received ! PATH :'+str(self.path))
+
         if os.path.isdir(self.path):
-            path = os.path.abspath(str(self.path))
-            self.ht.initialize(path)
+            for i in self.config.work:
+                self.ht.initialize(i)
             self.ht.verify()
             self.emit(self.signal, "finished")
         else:
