@@ -673,7 +673,7 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
                 hx=self.ht.gettags()
                 for i in hx:
                     child1=QTreeWidgetItem(self.tagtree)
-                    child1.setText(0,i)
+                    child1.setText(0,str(i))
                     for d in hx[i]:
                         child2=QTreeWidgetItem(child1)
                         child2.setText(0,d.justname)
@@ -808,7 +808,7 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
 
     def savetags(self,doc,tags):
         doc.tags=list(filter(None, tags.split(',')))
-
+        self.refresh()
 
     def open(self,doc):
         if type(doc) is str:
@@ -1088,6 +1088,8 @@ QTreeWidget::branch:open:has-children:!has-siblings,QTreeWidget::branch:open:has
 
 
                 # TAG REFRESH
+                for i in reversed(range(self.tagtree.childCount())):
+                    self.tagtree.removeChild(self.tagtree.child(i))
                 self.tagcontainer.itemChanged.connect(self.handleItemChanged)
                 self.tagcontainer.itemSelectionChanged.connect(lambda:self.newpreview(self.actualcat))
                 hx=self.ht.gettags()

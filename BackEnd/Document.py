@@ -8,7 +8,9 @@ from ML.Categorization.categorizer import categorizer
 from NLP.detect import detect
 import chardet
 import re
-
+import os
+import magic
+import time
 
 class Document:
     def __init__(self, path, text,name,type=None,language=None):
@@ -50,6 +52,17 @@ class Document:
         for i in self.tok:
             self.tokens.append(ps.stem(i.lower()))
         self.score=0
+        try:
+            self.addtag(time.strftime('%d/%m/%Y', time.gmtime(os.path.getmtime(self.name))))
+        except:
+            self.addtag(time.strftime('%d/%m/%Y', time.gmtime(os.path.getctime(self.name))))
+#        self.addtag(self.justname)
+        mime = magic.Magic(mime=True)
+        if os.path.isdir(self.name):
+            self.addtag('Folder')
+        else:
+            typ=mime.from_file(self.name)
+            self.addtag(typ)
     def setcategory(self,cat):
         self.category=cat
 
@@ -73,7 +86,7 @@ class Document:
 
 
     def addtag(self,tag):
-        self.tags.add(tag)
+        self.tags.append(tag)
 
     def deletetag(self):
         pass
