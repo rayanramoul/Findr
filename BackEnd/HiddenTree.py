@@ -94,19 +94,47 @@ class HiddenTree(VisibleTree):
                 if '/.' not in file:
                     for x in progs:
                         if name.endswith(x):
+                            tmp={}
+                            noup=0
+                            print('NAME:'+str(file))
+                            limit=str(os.path.dirname(file))
+                            print('limit : '+str(limit))
                             d=True
-                            lim=os.path.dirname(os.path.normpath(file))
-                            di = Document(lim, '', lim, type=x, language=None)
+                            for path, subdirs, files in os.walk(limit):
+                                for name in files:
+                                    bich=False
+                                    stro = str(os.path.join(path, name))
+                                    for i in progs:
+                                        if stro.endswith(i):
+                                            try:
+                                                tmp[i]=tmp[i]+1
+                                                bich=True
+                                            except:
+                                                tmp[i]=0
+                                                tmp[i] = tmp[i] + 1
+                                                bich=True
+                                    if not bich:
+                                        noup=noup+1
+                            indice=''
+                            maximum=noup
+                            for i in tmp:
+                                if tmp[i]>maximum:
+                                    indice=i
+                                    maximum=tmp[i]
+
                             test=False
+                            print('NOUP : '+str(noup))
+                            print('TMP : '+str(tmp))
+
                             for i in self.projets:
                                 for j in self.projets[i]:
-                                    if di.justname.startswith(j.justname):
+                                    if limit.startswith(j.justname):
                                         test=True
-                            if test is False:
+                            if test is False and indice!='':
+                                di = Document(limit, '', limit, type=indice, language=None)
                                 self.projets[x].append(di)
 
                     if not d:
-
                         if self.contains(file)==False:
                             self.add(file,name)
 
